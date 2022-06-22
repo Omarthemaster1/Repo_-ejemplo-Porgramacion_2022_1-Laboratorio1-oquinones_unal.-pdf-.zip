@@ -1,0 +1,127 @@
+
+
+alto=12
+ancho=30
+celdas={
+        }
+
+
+def FilaPuntos(x):
+    fila=[]
+    for i in range(ancho):
+        fila.append('.')
+    return x.append(fila)
+
+def ColumnaPuntos(x):
+    for u in range(alto):
+        FilaPuntos(x)
+    return x
+
+
+def InicializaLaberinto(an,al):
+    laberinto_ = []
+    def FilaPuntos(x):
+        fila=[]
+        for i in range(an):
+            fila.append('.')
+        return x.append(fila)
+
+    def ColumnaPuntos(x):
+        for u in range(al):
+            FilaPuntos(x)
+        return x
+    return ColumnaPuntos(laberinto_)
+    
+lab= InicializaLaberinto(ancho,alto)
+
+
+
+
+def UneFilas(fila):
+    filaUnida=''
+    for i in range(len(fila)):
+        filaUnida+=fila[i]
+    return filaUnida
+
+def ImprimeLaberinto(laberinto):
+    imagen='\n'
+    for i in range(len(laberinto)):
+        imagen+=UneFilas(laberinto[i])
+        imagen+='\n'
+    print(imagen)
+
+
+# to do 
+
+def Entrada(mapa):
+    mapa[3][3]='x'
+    return mapa
+
+posicion=[3,3]
+
+# -----
+
+def Decidir(posible):
+    if (posible=='r'):
+        print('nuevo laberinto')
+    elif (posible=='w' or posible=='a' or posible=='s' or posible=='d'):
+        Moverse(posible)
+    else:
+        print('intenta otra vez')
+
+#print(ran(5))
+def Moverse(direccion):
+    if (direccion=='w' and posicion[0]>0 and lab[posicion[0]-1][posicion[1]]=='.'):
+        lab[posicion[0]][posicion[1]]=' '
+        lab[posicion[0]-1][posicion[1]]='x'
+        posicion[0]-=1
+        ImprimeLaberinto(lab)
+
+    elif (direccion=='s' and posicion[0]<alto -1 and lab[posicion[0]+1][posicion[1]]=='.'):
+        lab[posicion[0]][posicion[1]]=' '
+        lab[posicion[0]+1][posicion[1]]='x'
+        posicion[0]+=1
+        ImprimeLaberinto(lab)
+    
+    elif(direccion=='a' and posicion[1]>0 and lab[posicion[0]][posicion[1]-1]=='.'):
+        lab[posicion[0]][posicion[1]]=' '
+        lab[posicion[0]][posicion[1]-1]='x'
+        posicion[1]-=1
+        ImprimeLaberinto(lab)
+    
+    elif (direccion=='d' and posicion[1]<ancho -1 and lab[posicion[0]][posicion[1]+1]=='.'):
+        lab[posicion[0]][posicion[1]]=' '
+        lab[posicion[0]][posicion[1]+1]='x'
+        posicion[1]+=1
+        ImprimeLaberinto(lab)
+     
+
+
+print('''\n\n\ndemo generador de laberintos 
+        
+        controles: debe presionar enter 
+        para que cada intruccion se registre
+
+        arriba: w 
+        abajo: s
+        izquierda: a
+        derecha: d
+        salir: e
+
+        NOTA: en esta demo solo se priorizo programar
+        el movimiento. Ademas puede ver el recorrido gracias 
+        a los espacios que va dejando por el camino.
+        Por ultimo, NO PUEDE moverse por lugares por los 
+        que ya ha pasado, esto es asi para probar la respuesta
+        del programa hacia las paredes del laberinto (testeo de limites).
+        '''
+        )
+
+
+ImprimeLaberinto(Entrada(lab))
+while(True):
+    accion=input('')
+    if (accion=='e'):
+       break
+    Decidir(accion.lower())
+
